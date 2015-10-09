@@ -64,6 +64,7 @@ MODx.window.tagelQuickCreateChunk = function(config) {
 		},{
 			xtype: 'textarea'
 			//xtype: Ext.ComponentMgr.types['modx-texteditor'] ? 'modx-texteditor' : 'textarea'
+			//,mimeType: tagElPlugin_config.using_fenom ? 'text/x-smarty' : 'text/html'
 			,id: config.id + '-snippet'
 			,name: 'snippet'
 			,fieldLabel: _('code')
@@ -122,6 +123,7 @@ MODx.window.tagelQuickCreateSnippet = function(config) {
 		// ,autoHeight: true
 		,layout: 'anchor'
 		,stateful: true
+		//,mimeType: 'application/x-php'
 		,url: MODx.config.connector_url
 		,action: 'element/snippet/create'
 		,fields: [{
@@ -177,6 +179,7 @@ MODx.window.tagelQuickCreateSnippet = function(config) {
 		},{
 			xtype: 'textarea'
 			//xtype: Ext.ComponentMgr.types['modx-texteditor'] ? 'modx-texteditor' : 'textarea'
+			//,mimeType: 'application/x-php'
 			,name: 'snippet'
 			,id: config.id + '-snippet'
 			,fieldLabel: _('code')

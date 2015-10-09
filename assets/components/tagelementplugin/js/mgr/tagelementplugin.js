@@ -6,7 +6,7 @@ Ext.onReady(function() {
 		txtarea = editor.getEl().child('textarea',true);
 	} else {
 		editor = Ext.getCmp(tagElPlugin_config.field);
-		txtarea = document.getElementById(xButtons_config.field);
+		txtarea = document.getElementById(tagElPlugin_config.field);
 	}
 	editorType = editor.getXType();
 	editor.getEl().addKeyListener({key:Ext.EventObject.ENTER, ctrl: true, shift: false}, function () {
@@ -40,7 +40,7 @@ function openElement(selection, quick) {
 	var token = selection.substr(0, 1), elementType, elementName, mimeType, modxTags;
 	if (token == '$') {
 		elementType = 'chunk';
-		mimeType = 'text/html';
+		mimeType = tagElPlugin_config.using_fenom ? 'text/x-smarty' : 'text/html';
 		modxTags = 1;
 	} else {
 		token = '';

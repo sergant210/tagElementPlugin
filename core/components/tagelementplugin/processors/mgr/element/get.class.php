@@ -33,6 +33,15 @@ class tagElementPluginGetProcessor extends modObjectGetProcessor {
         return parent::initialize();
     }
 
+    /**
+     * Return the response
+     * @return array
+     */
+    public function cleanup() {
+        $array = $this->object->toArray();
+        if ($this->classKey == 'modSnippet') $array['snippet'] = "<?php\n".$array['snippet'];
+        return $this->success('',$array);
+    }
 }
 
 return 'tagElementPluginGetProcessor';
