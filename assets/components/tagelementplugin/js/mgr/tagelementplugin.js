@@ -1,39 +1,60 @@
-Ext.onReady(function() {
-	var aceEditor = document.getElementsByClassName('ace_editor')[0],
-		editor, txtarea, editorType;
-	if (aceEditor) {
-		editor = Ext.getCmp(aceEditor.id);
-		txtarea = editor.getEl().child('textarea',true);
-	} else {
-		editor = Ext.getCmp(tagElPlugin_config.field);
-		txtarea = document.getElementById(tagElPlugin_config.field);
-	}
-	editorType = editor.getXType();
-	editor.getEl().addKeyListener({key:Ext.EventObject.ENTER, ctrl: true, shift: false}, function () {
-		var selection = '';
-		switch (editorType) {
-			case 'textarea':
-				selection = txtarea.value.substring(txtarea.selectionStart, txtarea.selectionEnd);
-				break;
-			case 'modx-texteditor':
-				selection = Ext.getCmp(aceEditor.id).editor.getSelectedText();
-				break;
-		}
-		if (selection) openElement(selection,true);
-	}, this);
-	editor.getEl().addKeyListener({key:Ext.EventObject.ENTER, ctrl: true, shift: true}, function () {
-		var selection = '';
-		switch (editorType) {
-			case 'textarea':
-				selection = txtarea.value.substring(txtarea.selectionStart, txtarea.selectionEnd);
-				break;
-			case 'modx-texteditor':
-				selection = Ext.getCmp(aceEditor.id).editor.getSelectedText();
-				break;
-		}
-		if (selection) openElement(selection, false);
-	}, this);
+Ext.onReady(function(){
+	tagEPinitialize();
 });
+
+function tagEPinitialize(winId) {
+	var els = document.getElementsByClassName('ace_editor');
+	if (els.length == 0) {
+		/*
+		if (winId) {
+			textareaId = winId + '-snippet';
+		} else {
+			textareaId = tagElPlugin_config.field;
+		}
+		els = [document.getElementById(textareaId)];
+		*/
+		els = [document.getElementById(tagElPlugin_config.field)];
+	}
+	for (var i = 0; i < els.length; i++) {
+		var aceEditor = els[i],
+			editor, txtarea, editorType;
+		if (aceEditor) {
+			editor = Ext.getCmp(aceEditor.id);
+			txtarea = editor.getEl().child('textarea',true);
+		} else {
+			editor = Ext.getCmp(textareaId);
+			txtarea = els[i];
+		}
+		editorType = editor.getXType();
+		editor.getEl().addKeyListener({key:Ext.EventObject.ENTER, ctrl: true, shift: false}, function () {
+			var selection = '';
+			switch (editorType) {
+				case 'textarea':
+					console.log(this);
+					txtarea = document.getElementById(tagElPlugin_config.field);
+					selection = txtarea.value.substring(txtarea.selectionStart, txtarea.selectionEnd);
+					break;
+				case 'modx-texteditor':
+					selection = Ext.getCmp(aceEditor.id).editor.getSelectedText();
+					break;
+			}
+			if (selection) openElement(selection,true);
+		}, this);
+		editor.getEl().addKeyListener({key:Ext.EventObject.ENTER, ctrl: true, shift: true}, function () {
+			var selection = '';
+			switch (editorType) {
+				case 'textarea':
+					txtarea = document.getElementById(tagElPlugin_config.field);
+					selection = txtarea.value.substring(txtarea.selectionStart, txtarea.selectionEnd);
+					break;
+				case 'modx-texteditor':
+					selection = Ext.getCmp(aceEditor.id).editor.getSelectedText();
+					break;
+			}
+			if (selection) openElement(selection, false);
+		}, this);
+	}
+}
 
 function openElement(selection, quick) {
 	selection = selection.replace('!','');
@@ -82,6 +103,7 @@ function openElement(selection, quick) {
 						w.reset();
 						w.setValues(r.object);
 						w.show(Ext.EventObject.target);
+						tagEPinitialize(winId);
 					} else {
 						location.href = 'index.php?a=element/'+elementType+'/update&id=' + r.object.id;
 					}
