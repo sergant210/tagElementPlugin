@@ -1,5 +1,9 @@
 Changelog for modExtra.
 
+1.0.2-pl
+==============
+- Fixed error with path in the plugin.
+
 1.0.1-pl
 ==============
 - Added php and fenom syntax highlighting.

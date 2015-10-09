@@ -18,7 +18,7 @@ switch ($modx->event->name) {
 if (!empty($field)) {
     $modx->controller->addLexiconTopic('core:chunk');
     $modx->controller->addLexiconTopic('core:snippet');
-    $jsUrl = $modx->getOption('tagelementplugin_assets_url', null, $modx->getOption('assets_url') . 'components/tagElementPlugin/').'js/mgr/';
+    $jsUrl = $modx->getOption('tagelementplugin_assets_url', null, $modx->getOption('assets_url') . 'components/tagelementplugin/').'js/mgr/';
     /** @var modManagerController */
     $modx->controller->addLastJavascript($jsUrl.'tagelementplugin.js');
     $modx->controller->addLastJavascript($jsUrl.'dialogs.js');
@@ -26,7 +26,7 @@ if (!empty($field)) {
     $_html .= "\tvar tagElPlugin_config = {\n";
     $_html .= "\t\telement : {$element},\n" ;
     $_html .= "\t\tfield : {$field},\n" ;
-    $_html .= "\t\tconnector_url : '". $modx->getOption('tagelementplugin_assets_url', null, $modx->getOption('assets_url') . "components/tagElementPlugin/")."connector.php'\n";
+    $_html .= "\t\tconnector_url : '". $modx->getOption('tagelementplugin_assets_url', null, $modx->getOption('assets_url') . "components/tagelementplugin/")."connector.php'\n";
     $_html .= "\t};\n";
     $_html .= "</script>";
     $modx->controller->addHtml($_html);
