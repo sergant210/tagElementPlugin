@@ -1,5 +1,9 @@
 Changelog for modExtra.
 
+1.0.1-pl
+==============
+- Added php and fenom syntax highlighting.
+
 1.0.0-pl
 ==============
 - Initial release.
