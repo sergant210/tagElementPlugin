@@ -4,6 +4,12 @@
  * Parse a tag
  */
 class tagElementPluginParseProcessor extends modProcessor {
+    public $objectType = 'tagelementplugin';
+    public $languageTopics = array('tagelementplugin:default');
+
+    public function getLanguageTopics() {
+        return $this->languageTopics;
+    }
     /**
      * {@inheritDoc}
      * @return boolean

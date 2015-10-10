@@ -33,6 +33,7 @@ class tagElementPluginGetProcessor extends modObjectGetProcessor {
         ));
         $query->select('id');
         $id = $this->modx->getValue($query->prepare());
+$this->modx->log(modX::LOG_LEVEL_ERROR, $this->objectType);
         if (!$id) return $this->modx->lexicon($this->objectType.'_err_nf');
 
         $this->setProperty('id',$id);

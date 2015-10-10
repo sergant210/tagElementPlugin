@@ -39,7 +39,10 @@ function openElement(selection, quick) {
 	selection = selection.replace('!','').replace('[[','').replace(']]','');
 	if (selection.length < 2) return;
 	var token = selection.substr(0, 1), elementType, elementName, mimeType, modxTags;
-
+	if (token == '-') {
+		selection = selection.substr(1);
+		token = selection.substr(0, 1);
+	}
 	switch (token) {
 		case '~':
 		case '%':
@@ -81,7 +84,9 @@ function openElement(selection, quick) {
 			url: tagElPlugin_config.connector_url,
 			params: {
 				action: "mgr/element/get",
-				tag: selection.substr(token.length)
+				tag: selection.substr(token.length),
+				elementType: elementType
+
 			},
 			listeners: {
 				"success": {
