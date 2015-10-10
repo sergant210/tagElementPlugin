@@ -18,11 +18,18 @@ class tagElementPluginGetProcessor extends modObjectGetProcessor {
         $this->objectType = $this->getProperty('elementType');
         $this->classKey = 'mod'.ucfirst($this->objectType);
         $this->permission = 'view_'.$this->objectType;
-        $name = $this->getProperty('elementName');
-        if (empty($name)) return $this->modx->lexicon($this->objectType.'_err_ns');
+        $tag = $this->getProperty('tag');
+        $tagParts= xPDO :: escSplit('?', $tag, '`', 2);
+        $tagName= trim($tagParts[0]);
+        $parser = $this->modx->getParser();
+        $elementName = $parser->realname($tagName);
+        if ($elementName[0] === '-') {
+            $elementName = substr($elementName, 1);
+        }
+        if (empty($elementName)) return $this->modx->lexicon($this->objectType.'_err_ns');
 
         $query = $this->modx->newQuery($this->classKey, array(
-            'name' => $name,
+            'name' => $elementName,
         ));
         $query->select('id');
         $id = $this->modx->getValue($query->prepare());

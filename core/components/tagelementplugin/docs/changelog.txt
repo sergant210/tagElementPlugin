@@ -1,4 +1,9 @@
-Changelog for modExtra.
+Changelog for tagElementPlugin.
+
+1.0.3-pl
+==============
+- Added ability to get the value of next tags: [[~5]], [[%lexicon_entry]], [[++system_setting]] and [[#10.pagetitle]]. The last one will be parsed if pdoParser is used (see http://docs.modx.pro/en/components/pdotools/parser#fastField-tag for more information).
+- Now you can select entire [[!mySnippet@propertySet? &param=`1`]]. tagElementPlugin can get correct tag name from this selection.
 
 1.0.2-pl
 ==============

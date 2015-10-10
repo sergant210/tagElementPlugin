@@ -1,5 +1,5 @@
 ## tagElementPlugin
-A MODx Revolution Plugin that allows edit chunks and snippets in a quick edit/create element window selecting their tags in the textarea field of resource, chunk or template and pressing Ctrl+Enter.
+A MODx Revolution Plugin that allows edit chunks and snippets in a quick edit/create element window selecting their tags in the textarea field of resource, chunk or template and pressing Ctrl+Enter. Also you can get the value of some tags that start with "~", "%", "++" and "#". 
 
 ### How it works
 Open any resource, chunk or template where you use the chunk / snippet tags (for example [[$myChunk]] and [[mySnippet]]). Select it without "[[" and "]]". The selection to open the chunk must be "$myShunk". For the snippet - "mySnippet".  Now press **Ctrl+Enter**. If the element exists the quick edit element dialog will be opened. 
@@ -30,6 +30,14 @@ For example, you can create a new template. Define it structure:
 And right on this page create these chunks selecting them one by one. 
 
 It works without any element editors and with Ace.
+
+tagElementPlugin can get the value of next tags:
+*[[~1]]
+*[[%lexicon_entry]]
+*[[++system_setting]]
+*[[#1.pagetitle]], [[#SERVER.key]], [[#REQUEST.key]], [[#COOKIE.key]], [[#SESSION.key]] and more.
+
+The last one will be parsed if pdoParser is used (read about the [fastField tags](http://docs.modx.pro/en/components/pdotools/parser#fastField-tag) for more information). It gives great possibilities.
 
 ###For Russian developers###
 You can read [the article]( https://modx.pro/components/6698-editing-selected-items) about it on the Russian MODX society site. 

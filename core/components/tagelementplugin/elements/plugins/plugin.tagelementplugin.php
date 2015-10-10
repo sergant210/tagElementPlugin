@@ -18,6 +18,7 @@ switch ($modx->event->name) {
 if (!empty($field)) {
     $modx->controller->addLexiconTopic('core:chunk');
     $modx->controller->addLexiconTopic('core:snippet');
+    $modx->controller->addLexiconTopic('tagelementplugin:default');
     $jsUrl = $modx->getOption('tagelementplugin_assets_url', null, $modx->getOption('assets_url') . 'components/tagelementplugin/').'js/mgr/';
     /** @var modManagerController */
     $modx->controller->addLastJavascript($jsUrl.'tagelementplugin.js');
