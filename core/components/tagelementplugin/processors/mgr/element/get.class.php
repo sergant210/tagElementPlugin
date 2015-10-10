@@ -23,9 +23,7 @@ class tagElementPluginGetProcessor extends modObjectGetProcessor {
         $tagName= trim($tagParts[0]);
         $parser = $this->modx->getParser();
         $elementName = $parser->realname($tagName);
-        if ($elementName[0] === '-') {
-            $elementName = substr($elementName, 1);
-        }
+
         if (empty($elementName)) return $this->modx->lexicon($this->objectType.'_err_ns');
 
         $query = $this->modx->newQuery($this->classKey, array(
