@@ -2,13 +2,13 @@
 A MODx Revolution Plugin that allows edit chunks and snippets in a quick edit/create element window selecting their tags in the textarea field of resource, chunk or template and pressing Ctrl+Enter. Also you can get the value of some tags that start with "~", "%", "++" and "#". 
 
 ### How it works
-Open any resource, chunk or template where you use the chunk / snippet tags (for example [[$myChunk]] and [[mySnippet]]). The selection to open the chunk must be "$myShunk". For the snippet - "mySnippet".  Now press **Ctrl+Enter**. If the element exists the quick edit element dialog will be opened. 
+Open any resource, chunk or template where you use the chunk / snippet tags (for example [[$myChunk]] and [[mySnippet]]). Select tag and press **Ctrl+Enter**. If the element exists the quick edit element dialog will be opened. 
 [![](https://file.modx.pro/files/5/4/3/54336e8e39f90677c562d38a395497cas.jpg)](https://file.modx.pro/files/5/4/3/54336e8e39f90677c562d38a395497ca.png)
 
 If not you can create it right here.  
 [![](https://file.modx.pro/files/a/8/c/a8cd30b9558562011c72629df6520364s.jpg)](https://file.modx.pro/files/a/8/c/a8cd30b9558562011c72629df6520364.png)
 
-To go to the element page press Ctrl+Shift+Enter.
+To go to the element page press **Ctrl+Shift+Enter**.
 
 For example, you can create a new template. Define it structure:
 ```
