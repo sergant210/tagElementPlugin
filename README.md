@@ -32,10 +32,10 @@ And right on this page create these chunks selecting them one by one.
 It works without any element editors and with Ace.
 
 tagElementPlugin can get the value of next tags:
-*[[~1]]
-*[[%lexicon_entry]]
-*[[++system_setting]]
-*[[#1.pagetitle]], [[#SERVER.key]], [[#REQUEST.key]], [[#COOKIE.key]], [[#SESSION.key]] and more.
+* [[~1]]
+* [[%lexicon_entry]]
+* [[++system_setting]]
+* [[#1.pagetitle]], [[#SERVER.key]], [[#REQUEST.key]], [[#COOKIE.key]], [[#SESSION.key]] and more.
 
 The last one will be parsed if pdoParser is used (read about the [fastField tags](http://docs.modx.pro/en/components/pdotools/parser#fastField-tag) for more information). It gives great possibilities.
 
