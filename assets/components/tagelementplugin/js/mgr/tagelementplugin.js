@@ -15,9 +15,12 @@ var tagElement = {
 				var panel = Ext.getCmp(tagElPlugin_config.panel);
 				panel.warnUnsavedChanges = panel.warnUnsavedChanges || false;
 				panel.on('fieldChange',function(e) {
-					if (!panel.warnUnsavedChanges && Ext.EventObject.getKey() != 116 && (panel.isReady || MODx.request.reload)) {
+					if (!panel.warnUnsavedChanges && Ext.EventObject.button != 116 && Ext.EventObject.button != 0 && (panel.isReady || MODx.request.reload)) {
 						panel.warnUnsavedChanges = true;
 					}
+				});
+				panel.on('success',function(e) {
+					panel.warnUnsavedChanges = false;
 				});
 				window.onbeforeunload = function() {
 					if (panel.warnUnsavedChanges) return _('unsaved_changes');
