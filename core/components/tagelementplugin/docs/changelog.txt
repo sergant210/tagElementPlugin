@@ -1,5 +1,10 @@
 Changelog for tagElementPlugin.
 
+1.0.5-pl
+==============
+- Fixed bug of setting element name to field "Name" of the quick create element dialog.
+- Added check the changes to prevent loss of them when the user wants to leave the page. It's switched off by the system setting "Confirm_navigation".
+
 1.0.4-pl
 ==============
 - Added recursive call.

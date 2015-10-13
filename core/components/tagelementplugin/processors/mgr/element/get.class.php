@@ -8,6 +8,7 @@ class tagElementPluginGetProcessor extends modObjectGetProcessor {
 	public $classKey = '';
     public $languageTopics = array('core:chunk','core:snippet','tagelementplugin:default');
 	public $permission = '';
+    public $elementName = '';
 
 
     /**
@@ -22,7 +23,7 @@ class tagElementPluginGetProcessor extends modObjectGetProcessor {
         $tagParts= xPDO :: escSplit('?', $tag, '`', 2);
         $tagName= trim($tagParts[0]);
         $parser = $this->modx->getParser();
-        $elementName = $parser->realname($tagName);
+        $elementName = $this->elementName = $parser->realname($tagName);
 
         if (empty($elementName)) return $this->modx->lexicon($this->objectType.'_err_ns');
 
@@ -46,6 +47,12 @@ class tagElementPluginGetProcessor extends modObjectGetProcessor {
         $array = $this->object->toArray();
         if ($this->classKey == 'modSnippet') $array['snippet'] = "<?php\n".$array['snippet'];
         return $this->success('',$array);
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function failure($msg = '',$object = null) {
+        return $this->modx->error->failure($msg,array('name'=>$this->elementName));
     }
 }
 

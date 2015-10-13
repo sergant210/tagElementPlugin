@@ -1,16 +1,16 @@
 <?php
 switch ($modx->event->name) {
     case 'OnDocFormPrerender':
-        $field = $modx->quote('modx-snippet-snippet');
-        $element = $modx->quote('snippets');
+        $field = 'modx-snippet-snippet';
+        $panel = '';
         break;
     case 'OnTempFormPrerender':
-        $field = $modx->quote('modx-template-content');
-        $element = $modx->quote('templates');
+        $field = 'modx-template-content';
+        $panel = 'modx-panel-template';
         break;
     case 'OnChunkFormPrerender':
-        $field = $modx->quote('modx-chunk-snippet');
-        $element = $modx->quote('chunks');
+        $field = 'modx-chunk-snippet';
+        $panel = 'modx-panel-chunk';
         break;
     default:
         return;
@@ -26,8 +26,8 @@ if (!empty($field)) {
     $usingFenon = $modx->getOption('pdotools_fenom_parser',null,false) ? 'true' : 'false';
     $_html = "<script type=\"text/javascript\">\n";
     $_html .= "\tvar tagElPlugin_config = {\n";
-    $_html .= "\t\telement : {$element},\n" ;
-    $_html .= "\t\tfield : {$field},\n" ;
+    $_html .= "\t\tpanel : '{$panel}',\n" ;
+    $_html .= "\t\tfield : '{$field}',\n" ;
     $_html .= "\t\tusing_fenom : {$usingFenon},\n" ;
     $_html .= "\t\teditor : '".$modx->getOption('which_element_editor')."',\n" ;
     $_html .= "\t\tconnector_url : '". $modx->getOption('tagelementplugin_assets_url', null, $modx->getOption('assets_url') . "components/tagelementplugin/")."connector.php'\n";
