@@ -1,5 +1,9 @@
 Changelog for tagElementPlugin.
 
+1.1.0-pl
+==============
+- Added the ability to set parameters for snippets and chunks. Select a snippet tag and press Ctrl+Insert. It looks the same as when grag'n'droping elements.
+
 1.0.5-pl
 ==============
 - Fixed bug of setting element name to field "Name" of the quick create element dialog.

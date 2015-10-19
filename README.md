@@ -39,5 +39,7 @@ tagElementPlugin can get the value of next tags:
 
 The last one will be parsed if pdoParser is used (read about the [fastField tags](http://docs.modx.pro/en/components/pdotools/parser#fastField-tag) for more information). It gives great possibilities.
 
+To form a snippet or a chunk tag with parameters write the snippet name, select it and press Ctrl+Insert. The "Select element options" dialog with default properties will be opened. Change the required properties and press Save.  
+
 ###For Russian developers###
 You can read [the article]( https://modx.pro/components/6698-editing-selected-items) about it on the Russian MODX society site. 
