@@ -1,5 +1,9 @@
 Changelog for tagElementPlugin.
 
+1.1.1-pl
+==============
+- Added system settings allow users to customize the keyboard shortcuts.
+
 1.1.0-pl
 ==============
 - Added the ability to set parameters for snippets and chunks. Select a snippet tag and press Ctrl+Insert. It looks the same as when grag'n'droping elements.

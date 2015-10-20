@@ -1,8 +1,8 @@
-var tagElement = {
+tagElPlugin = Ext.apply(tagElPlugin,{
 	initialize: function (winId) {
 		var editorEl, txtarea, editorType;
 		if (winId) {
-			if (tagElPlugin_config.editor == 'Ace') {
+			if (this.config.editor == 'Ace') {
 				editorEl = Ext.select('div#' + winId + ' div.ace_editor').first();
 				editorType = 'modx-texteditor';
 			} else {
@@ -11,11 +11,11 @@ var tagElement = {
 				txtarea = Ext.getDom(winId + '-snippet');
 			}
 		} else {
-			if (MODx.config.confirm_navigation == 1 && tagElPlugin_config.panel) {
-				var panel = Ext.getCmp(tagElPlugin_config.panel);
+			if (MODx.config.confirm_navigation == 1 && this.config.panel) {
+				var panel = Ext.getCmp(this.config.panel);
 				panel.warnUnsavedChanges = panel.warnUnsavedChanges || false;
 				panel.on('fieldChange', function (e) {
-					if (!panel.warnUnsavedChanges && Ext.EventObject.button != 116 && Ext.EventObject.button != 0 && (panel.isReady || MODx.request.reload)) {
+					if (!panel.warnUnsavedChanges && Ext.EventObject.button != Ext.EventObject.F5 && Ext.EventObject.button != 0 && (panel.isReady || MODx.request.reload)) {
 						panel.warnUnsavedChanges = true;
 					}
 				});
@@ -26,17 +26,20 @@ var tagElement = {
 					if (panel.warnUnsavedChanges) return _('unsaved_changes');
 				};
 			}
-			if (tagElPlugin_config.editor == 'Ace') {
-				//Ext.getCmp(tagElPlugin_config.panel).getEl().select('textarea.ace_text-input');
+			if (this.config.editor == 'Ace') {
+				//Ext.getCmp(this.config.panel).getEl().select('textarea.ace_text-input');
 				editorEl = Ext.select('div.ace_editor').first();
 				editorType = 'modx-texteditor';
 			} else {
-				editorEl = Ext.get(tagElPlugin_config.field);
+				editorEl = Ext.get(this.config.field);
 				editorType = 'textarea';
-				txtarea = document.getElementById(tagElPlugin_config.field);
+				txtarea = document.getElementById(this.config.field);
 			}
 		}
-		editorEl.addKeyListener({key: Ext.EventObject.ENTER, ctrl: true, shift: false, alt: false}, function () {
+		var quickEditorKeys   = this.config.keys.quickEditor || {key: Ext.EventObject.ENTER, ctrl: true, shift: false, alt: false}; //('tep.quick_edit_keys');
+		var elementEditorKeys = this.config.keys.elementEditor || {key: Ext.EventObject.ENTER, ctrl: true, shift: true, alt: false};
+		var elementPropKeys   = this.config.keys.elementProperties || {key: Ext.EventObject.INSERT, ctrl: true, shift: false, alt: false};
+		editorEl.addKeyListener(quickEditorKeys, function () {
 			var selection = '';
 			switch (editorType) {
 				case 'textarea':
@@ -47,10 +50,10 @@ var tagElement = {
 					break;
 			}
 			if (selection) {
-				tagElement.openElement(selection, true, editorEl);
+				this.openElement(selection, true, editorEl);
 			}
 		}, this);
-		editorEl.addKeyListener({key: Ext.EventObject.ENTER, ctrl: true, shift: true, alt: false}, function () {
+		editorEl.addKeyListener(elementEditorKeys, function () {
 			var selection = '';
 			switch (editorType) {
 				case 'textarea':
@@ -60,9 +63,9 @@ var tagElement = {
 					selection = Ext.getCmp(editorEl.id).editor.getSelectedText();
 					break;
 			}
-			if (selection) tagElement.openElement(selection, false);
+			if (selection) this.openElement(selection, false);
 		}, this);
-		editorEl.addKeyListener({key: Ext.EventObject.INSERT, ctrl: true, shift: false, alt: false}, function () {
+		editorEl.addKeyListener(elementPropKeys, function () {
 			var selection = '';
 			switch (editorType) {
 				case 'textarea':
@@ -72,7 +75,7 @@ var tagElement = {
 					selection = Ext.getCmp(editorEl.id).editor.getSelectedText();
 					break;
 			}
-			if (selection) tagElement.openProperties(selection, editorEl, panel);
+			if (selection) this.openProperties(selection, editorEl);
 		}, this);
 		/*
 		// Parse chunks and snippets
@@ -87,7 +90,7 @@ var tagElement = {
 		 selection = Ext.getCmp(editorEl.id).editor.getSelectedText();
 		 break;
 		 }
-		 if (selection) tagElement.parseElement(selection, false);
+		 if (selection) this.parseElement(selection, false);
 		 }, this);
 		 */
 	},
@@ -100,6 +103,9 @@ var tagElement = {
 			token = selection.substr(0, 1);
 		}
 		switch (token) {
+			case '*':
+				return false;
+				break;
 			case '~':
 			case '%':
 			case '+':
@@ -109,7 +115,7 @@ var tagElement = {
 			// chunk
 			case '$':
 				elementType = 'chunk';
-				mimeType = tagElPlugin_config.using_fenom ? 'text/x-smarty' : 'text/html';
+				mimeType = this.config.using_fenom ? 'text/x-smarty' : 'text/html';
 				modxTags = 1;
 				break;
 			// snippet
@@ -122,7 +128,7 @@ var tagElement = {
 		}
 		if (elementType == 'other') {
 			MODx.Ajax.request({
-				url: tagElPlugin_config.connector_url,
+				url: this.config.connector_url,
 				params: {
 					action: "mgr/tag/parse",
 					tag: selection
@@ -137,7 +143,7 @@ var tagElement = {
 			});
 		} else {
 			MODx.Ajax.request({
-				url: tagElPlugin_config.connector_url,
+				url: this.config.connector_url,
 				params: {
 					action: "mgr/element/get",
 					tag: selection.substr(token.length),
@@ -149,7 +155,7 @@ var tagElement = {
 						fn: function (r) {
 							if (quick) {
 								var winId = 'tagel-element-window-' + (++Ext.Component.AUTO_ID);
-								tagElPlugin_config.parent[winId] = parent.id;
+								tagElPlugin.config.parent[winId] = parent.id;
 
 								var w = MODx.load({
 									xtype: 'tagelement-quick-update-' + elementType,
@@ -161,8 +167,8 @@ var tagElement = {
 										},
 										'afterrender': {
 											fn: function () {
-												if (tagElPlugin_config.editor == 'Ace') MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
-												tagElement.initialize(winId);
+												if (tagElPlugin.config.editor == 'Ace') MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
+												tagElPlugin.initialize(winId);
 												//var id = Ext.select('div.ace_editor').last().id,
 												//	editor =  Ext.getCmp(id);
 												//editor.setMimeType(mimeType);
@@ -171,15 +177,15 @@ var tagElement = {
 										'hide': {
 											fn: function () {
 												this.destroy();
-												var parent = Ext.get(tagElPlugin_config.parent[this.id]);
+												var parent = Ext.get(tagElPlugin.config.parent[this.id]);
 												if (parent) {
-													if (parent.id == tagElPlugin_config.field) {
+													if (parent.id == tagElPlugin.config.field) {
 														parent.focus();
 													} else {
 														parent.down('textarea').focus();
 													}
 												}
-												delete tagElPlugin_config.parent[this.id];
+												delete tagElPlugin.config.parent[this.id];
 											}
 										}
 									}
@@ -208,7 +214,7 @@ var tagElement = {
 											if (btn == 'yes') {
 												if (quick) {
 													var winId = 'tagel-element-window-' + (++Ext.Component.AUTO_ID);
-													tagElPlugin_config.parent[winId] = parent.id;
+													tagElPlugin.config.parent[winId] = parent.id;
 
 													var w = MODx.load({
 														xtype: 'tagelement-quick-create-' + elementType,
@@ -220,22 +226,22 @@ var tagElement = {
 															},
 															'afterrender': {
 																fn: function () {
-																	if (tagElPlugin_config.editor == 'Ace') MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
-																	tagElement.initialize(winId);
+																	if (tagElPlugin.config.editor == 'Ace') MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
+																	tagElPlugin.initialize(winId);
 																}, scope: this
 															},
 															'hide': {
 																fn: function () {
 																	this.destroy();
-																	var parent = Ext.get(tagElPlugin_config.parent[this.id]);
+																	var parent = Ext.get(tagElPlugin.config.parent[this.id]);
 																	if (parent) {
-																		if (parent.id == tagElPlugin_config.field) {
+																		if (parent.id == tagElPlugin.config.field) {
 																			parent.focus();
 																		} else {
 																			parent.down('textarea').focus();
 																		}
 																	}
-																	delete tagElPlugin_config.parent[this.id];
+																	delete tagElPlugin.config.parent[this.id];
 																}
 															}
 														}
@@ -260,7 +266,7 @@ var tagElement = {
 			});
 		}
 	},
-	openProperties: function (selection, targetEl, panel) {
+	openProperties: function (selection, targetEl) {
 		selection = selection.trim().replace('!','').replace('[[','').replace(']]','');
 		if (selection.length < 2) return;
 		var token = selection.substr(0, 1), elementType, elementClass;
@@ -290,7 +296,7 @@ var tagElement = {
 		}
 		if (elementType != 'other') {
 			MODx.Ajax.request({
-				url: tagElPlugin_config.connector_url,
+				url: this.config.connector_url,
 				params: {
 					action: "mgr/element/getproperties",
 					tag: selection.substr(token.length),
@@ -306,7 +312,7 @@ var tagElement = {
 								targetEl: targetEl,
 								iframe: false
 							});
-							if (tagElPlugin_config.editor == 'Ace') {
+							if (tagElPlugin.config.editor == 'Ace') {
 								cfg = Ext.apply(cfg, {
 									iframe: true,
 									onInsert: (function (s) {
@@ -321,10 +327,10 @@ var tagElement = {
 								classKey: elementClass,
 								name: elementName,
 								output: '',
-								ddTargetEl: tagElPlugin_config.editor == 'Ace' ? targetEl : targetEl.dom,
+								ddTargetEl: tagElPlugin.config.editor == 'Ace' ? targetEl : targetEl.dom,
 								cfg: cfg,
-								iframe: tagElPlugin_config.editor == 'Ace',
-								panel: panel
+								iframe: tagElPlugin.config.editor == 'Ace',
+								panel: tagElPlugin.config.panel
 							});
 
 						}
@@ -335,7 +341,7 @@ var tagElement = {
 	},
 	parseElement: function (selection) {
 		MODx.Ajax.request({
-			url: tagElPlugin_config.connector_url,
+			url: this.config.connector_url,
 			params: {
 				action: "mgr/tag/parse",
 				tag: selection
@@ -349,9 +355,9 @@ var tagElement = {
 			}
 		});
 	}
-};
+});
 
 Ext.onReady(function() {
-	tagElPlugin_config.parent = [];
-	tagElement.initialize('');
+	//tagElPlugin.config.parent = [];
+	tagElPlugin.initialize('');
 });

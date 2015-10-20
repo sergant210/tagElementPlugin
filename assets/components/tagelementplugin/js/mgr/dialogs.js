@@ -64,7 +64,7 @@ MODx.window.tagelQuickCreateChunk = function(config) {
 		},{
 			xtype: 'textarea'
 			//xtype: Ext.ComponentMgr.types['modx-texteditor'] ? 'modx-texteditor' : 'textarea'
-			//,mimeType: tagElPlugin_config.using_fenom ? 'text/x-smarty' : 'text/html'
+			//,mimeType: tagElPlugin.config.using_fenom ? 'text/x-smarty' : 'text/html'
 			,id: config.id + '-snippet'
 			,name: 'snippet'
 			,fieldLabel: _('code')

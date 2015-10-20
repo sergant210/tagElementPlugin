@@ -2,13 +2,23 @@
 
 $settings = array();
 
-$tmp = array(/*
-	'some_setting' => array(
-		'xtype' => 'combo-boolean',
-		'value' => true,
+$tmp = array(
+	'quick_editor_keys' => array(
+		'xtype' => 'textfield',
+		'value' => '{key: Ext.EventObject.ENTER, ctrl: true, shift: false, alt: false}',
 		'area' => 'tagelementplugin_main',
 	),
-	*/
+    'element_editor_keys' => array(
+		'xtype' => 'textfield',
+		'value' => '{key: Ext.EventObject.ENTER, ctrl: true, shift: true, alt: false}',
+		'area' => 'tagelementplugin_main',
+	),
+    'element_prop_keys' => array(
+		'xtype' => 'textfield',
+		'value' => '{key: Ext.EventObject.INSERT, ctrl: true, shift: false, alt: false}',
+		'area' => 'tagelementplugin_main',
+	),
+
 );
 
 foreach ($tmp as $k => $v) {
