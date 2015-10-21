@@ -18,7 +18,6 @@ $tmp = array(
 		'value' => '{key: Ext.EventObject.INSERT, ctrl: true, shift: false, alt: false}',
 		'area' => 'tagelementplugin_main',
 	),
-
 );
 
 foreach ($tmp as $k => $v) {

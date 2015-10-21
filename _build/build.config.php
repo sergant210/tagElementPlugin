@@ -4,7 +4,7 @@
 define('PKG_NAME', 'tagElementPlugin');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
 
-define('PKG_VERSION', '1.1.1');
+define('PKG_VERSION', '1.1.2');
 define('PKG_RELEASE', 'pl');
 define('PKG_AUTO_INSTALL', false);
 define('PKG_NAMESPACE_PATH', '{core_path}components/' . PKG_NAME_LOWER . '/');
@@ -34,7 +34,7 @@ define('MODX_ASSETS_URL', MODX_BASE_URL . 'assets/');
 /* define build options */
 //define('BUILD_MENU_UPDATE', false);
 //define('BUILD_ACTION_UPDATE', false);
-//define('BUILD_SETTING_UPDATE', false);
+define('BUILD_SETTING_UPDATE', false);
 define('BUILD_CHUNK_UPDATE', false);
 
 //define('BUILD_SNIPPET_UPDATE', false);

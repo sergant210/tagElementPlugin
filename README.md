@@ -47,6 +47,10 @@ To form a snippet or a chunk tag with parameters write the snippet name, select 
 * tagelementplugin_element_editor_keys - a shortcut to redirect to the element page.
 * tagelementplugin_element_prop_keys -  a shortcut to open the "Select element options" window for the selected snippet or chunk.
 
+They look like this 
+```
+{key: Ext.EventObject.ENTER, ctrl: true, shift: false, alt: false}
+```
 You can specify a digital key code or use [the ExtJs constants](http://docs.sencha.com/extjs/3.4.0/#!/api/Ext.EventManager).
 
 ###For Russian developers###

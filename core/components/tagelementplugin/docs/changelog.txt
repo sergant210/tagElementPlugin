@@ -1,5 +1,9 @@
 Changelog for tagElementPlugin.
 
+1.1.2-pl
+==============
+- Allow to create the system settings.
+
 1.1.1-pl
 ==============
 - Added system settings allow users to customize the keyboard shortcuts.
