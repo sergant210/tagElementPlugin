@@ -41,8 +41,9 @@ The last ones will be parsed if pdoParser is used (read about the [fastField tag
 
 To form a snippet or a chunk tag with parameters write the snippet name, select it and press ##Ctrl+Insert##. The "Select element options" dialog with default properties will be opened. Change the required properties and press Save.  You'll get the prepared tag.
 
-### System setting 
+### Customize the shortcuts
 
+Use next system settings to do it:
 * tagelementplugin_quick_editor_keys - a shortcut to edit elements in the quick editing window.
 * tagelementplugin_element_editor_keys - a shortcut to redirect to the element page.
 * tagelementplugin_element_prop_keys -  a shortcut to open the "Select element options" window for the selected snippet or chunk.
