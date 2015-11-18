@@ -44,9 +44,9 @@ To form a snippet or a chunk tag with parameters write the snippet name, select 
 ### Customize the shortcuts
 
 Use next system settings to do it:
-* tagelementplugin_quick_editor_keys - a shortcut to edit elements in the quick editing window.
-* tagelementplugin_element_editor_keys - a shortcut to redirect to the element page.
-* tagelementplugin_element_prop_keys -  a shortcut to open the "Select element options" window for the selected snippet or chunk.
+* tagelementplugin_quick_editor_keys - a shortcut to edit elements in the quick editing window. By default, Ctrl+Enter.
+* tagelementplugin_element_editor_keys - a shortcut to redirect to the element page. By default, Ctrl+Shift+Enter.
+* tagelementplugin_element_prop_keys -  a shortcut to open the "Select element options" window for the selected snippet or chunk. By default, Ctrl+Ins.
 
 They look like this 
 ```
