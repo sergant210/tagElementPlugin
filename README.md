@@ -23,7 +23,6 @@ For example, you can create a new template. Define it structure:
     [[$gallery]]
     [[$content]]
     [[$footer]]
-    </div> 
 </body>
 </html>
 ```
