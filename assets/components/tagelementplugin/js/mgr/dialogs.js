@@ -74,10 +74,21 @@ MODx.window.tagelQuickCreateChunk = function(config) {
 			,growMax: 300
 		}]
 		,keys: [{
-			key: Ext.EventObject.ENTER
-			,shift: true
-			,fn: this.submit
-			,scope: this
+			key: MODx.config.keymap_save || 's',
+			ctrl: true,
+			shift: false,
+			scope: this,
+			fn: function () {
+				this.submit(false);
+			}
+		}, {
+			key: MODx.config.keymap_save || 's',
+			ctrl: true,
+			shift: true,
+			scope: this,
+			fn: function () {
+				this.submit();
+			}
 		}]
 	});
 	MODx.window.QuickCreateChunk.superclass.constructor.call(this,config);
@@ -189,10 +200,21 @@ MODx.window.tagelQuickCreateSnippet = function(config) {
 			,growMax: 300
 		}]
 		,keys: [{
-			key: Ext.EventObject.ENTER
-			,shift: true
-			,fn: this.submit
-			,scope: this
+			key: MODx.config.keymap_save || 's',
+			ctrl: true,
+			shift: false,
+			scope: this,
+			fn: function () {
+				this.submit(false);
+			}
+		}, {
+			key: MODx.config.keymap_save || 's',
+			ctrl: true,
+			shift: true,
+			scope: this,
+			fn: function () {
+				this.submit();
+			}
 		}]
 	});
 	MODx.window.tagelQuickCreateSnippet.superclass.constructor.call(this,config);

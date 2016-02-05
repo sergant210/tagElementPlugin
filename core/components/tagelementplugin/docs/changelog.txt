@@ -1,5 +1,9 @@
 Changelog for tagElementPlugin.
 
+1.1.3-pl
+==============
+- Bind <Ctrl+S> and <Ctrl+Shift+S> to the buttons "Save" and "Save and close" of the quick edit dialogs.
+
 1.1.2-pl
 ==============
 - Allow to create the system settings.
