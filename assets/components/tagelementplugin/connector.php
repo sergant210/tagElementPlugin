@@ -14,6 +14,7 @@ require_once MODX_CONNECTORS_PATH . 'index.php';
 // handle request
 $path = $modx->getOption('tagelementplugin_core_path', null, $modx->getOption('core_path') . 'components/tagelementplugin/').'processors/';
 /** @noinspection PhpMethodParametersCountMismatchInspection */
+/** @var modConnectorRequest $request */
 $modx->request->handleRequest(array(
 	'processors_path' => $path,
 	'location' => '',

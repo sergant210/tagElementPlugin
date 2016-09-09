@@ -267,6 +267,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 		}
 	},
 	openProperties: function (selection, targetEl) {
+		var cached = !selection.match(/\[\[!/);
 		selection = selection.trim().replace('!','').replace('[[','').replace(']]','');
 		if (selection.length < 2) return;
 		var token = selection.substr(0, 1), elementType, elementClass;
@@ -274,6 +275,8 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 			selection = selection.substr(1);
 			token = selection.substr(0, 1);
 		}
+		var self = this;
+
 		switch (token) {
 			case '~':
 			case '%':
@@ -322,11 +325,13 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 									}).bind(Ext.getCmp(targetEl.id))
 								});
 							}
-							MODx.loadInsertElement({
+							self.loadInsertElement({
 								pk: elementId,
 								classKey: elementClass,
 								name: elementName,
+								cached: cached,
 								output: '',
+								tag: selection.substr(token.length),
 								ddTargetEl: tagElPlugin.config.editor == 'Ace' ? targetEl : targetEl.dom,
 								cfg: cfg,
 								iframe: tagElPlugin.config.editor == 'Ace',
@@ -338,6 +343,94 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 				}
 			});
 		}
+	},
+	loadInsertElement: function(r) {
+		if (MODx.InsertElementWindow) {
+			MODx.InsertElementWindow.hide();
+			MODx.InsertElementWindow.destroy();
+		}
+		MODx.InsertElementWindow = MODx.load({
+			xtype: 'modx-window-insert-element',
+			record: r,
+			listeners: {
+				render: {
+					fn: function (w) {
+						var propertySet = r.tag.split('?')[0].split('@')[1];
+						if (propertySet) propertySet = propertySet.split(':')[0];
+						var propset = Ext.getCmp('modx-dise-propset');
+						propset.store = new Ext.data.JsonStore({
+							url: tagElPlugin.config.connector_url,
+							id: 0,
+							baseParams: {
+								action: 'mgr/element/getpropertysetlist',
+								showAssociated: true,
+								elementId: r.pk,
+								elementType: r.classKey,
+								propertySet: propertySet
+							},
+							root: 'results',
+							totalProperty: 'total',
+							fields: ['id', 'name'],
+							listeners: {load: function (store, rec) {
+								for (var i=1; i<rec.length; i++) {
+									if (rec[i].data.name == propertySet) {
+										var id = rec[i].id;
+										setTimeout(function () {
+											propset.setValue(id);
+										},300);
+										//propset.select(i, false);
+									}
+								}
+							} }
+						});
+						var props = w.fields[4];
+						props.autoLoad.url = tagElPlugin.config.connector_url;
+						props.autoLoad.callback = this.onPropFormLoad;
+						props.autoLoad.params.action = 'mgr/element/getinsertproperties';
+						props.autoLoad.params.tag = r.tag;
+					}, scope: this
+				},
+				show: {fn: function(w){/*console.log(w.fields[4]);*/}, scope: this},
+				hide: {fn:function(w) { setTimeout(function(){w.destroy();},200)}}
+			}
+		});
+		MODx.InsertElementWindow.setValues(r);
+		MODx.InsertElementWindow.show(Ext.EventObject.target);
+	},
+	createStore: function(data) {
+		return new Ext.data.SimpleStore({
+			fields: ["v","d"]
+			,data: data
+		});
+	},
+	onPropFormLoad: function(el,s,r) {
+		this.mask.hide();
+		var vs = Ext.decode(r.responseText);
+		if (!vs || vs.length <= 0) {
+			return false;
+		}
+		for (var i = 0; i < vs.length; i++) {
+			if (vs[i].isDirty) {
+				var modps= Ext.getCmp('modx-window-insert-element').modps;
+				if (!modps[vs[i].name]) {
+					modps.push(vs[i].name);
+				}
+			}
+			if (vs[i].store) {
+				vs[i].store = this.createStore(vs[i].store);
+			}
+		}
+		MODx.load({
+			xtype: 'panel'
+			, id: 'modx-iprops-fp'
+			, layout: 'form'
+			, autoHeight: true
+			, autoScroll: true
+			, labelWidth: 150
+			, border: false
+			, items: vs
+			, renderTo: 'modx-iprops-form'
+		});
 	},
 	parseElement: function (selection) {
 		MODx.Ajax.request({
@@ -358,6 +451,5 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 });
 
 Ext.onReady(function() {
-	//tagElPlugin.config.parent = [];
 	tagElPlugin.initialize('');
 });

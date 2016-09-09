@@ -28,7 +28,7 @@ For example, you can create a new template. Define it structure:
 ```
 And right on this page create these chunks selecting them one by one. 
 
-It works without any element editors and with Ace.
+It works without any element editor and with Ace.
 
 tagElementPlugin can get the value of next tags:
 * [[~1]]
@@ -36,9 +36,9 @@ tagElementPlugin can get the value of next tags:
 * [[++system_setting]]
 * [[#1.pagetitle]], [[#SERVER.key]], [[#REQUEST.key]], [[#COOKIE.key]], [[#SESSION.key]] and more.
 
-The last ones will be parsed if pdoParser is used (read about the [fastField tags](http://docs.modx.pro/en/components/pdotools/parser#fastField-tag) for more information). It gives great possibilities.
+The last ones will be parsed if pdoParser is used (read about the [fastField tags](http://docs.modx.pro/en/components/pdotools/parser#fastField-tag) for more information). It gives the great possibilities.
 
-To form a snippet or a chunk tag with parameters write the snippet name, select it and press **Ctrl+Insert**. The "Select element options" dialog with default properties will be opened. Change the required properties and press Save.  You'll get the prepared tag.
+To form a snippet or a chunk tag with parameters write the snippet name, select it and press **Ctrl+Insert**. The "Select element options" dialog with element properties will be opened. Change the required properties and press Save.  You'll get the prepared tag. You can specify any custom parameter and any property set. These parameters will be also shown in the options dialog. 
 
 ### Customize the shortcuts
 
@@ -53,5 +53,4 @@ They look like this
 ```
 You can specify a digital key code or use [the ExtJs constants](http://docs.sencha.com/extjs/3.4.0/#!/api/Ext.EventManager).
 
-###For Russian developers###
-You can read [the article]( https://modx.pro/components/6698-editing-selected-items) about it on the Russian MODX society site. 
+[Documentation](http://modzone.ru/documentation/tagelementplugin.html) (russian). 
