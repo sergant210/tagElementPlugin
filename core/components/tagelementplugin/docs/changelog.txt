@@ -1,3 +1,9 @@
+1.2.0-pl
+==============
+- tagElementPlugin is also available in the snippet and plugin forms.
+- Added keyboard shortcuts to work with chunks. By default, <Ctrl>+<Alt>+<C> and <Ctrl>+<Shift>+<Alt>+<C>.
+- Added "Save as" button to the quick update dialogs.
+
 1.1.4-pl
 ==============
 - The "Select element options" dialog (shown by pressing <Ctrl>+<Insert>) takes into account specified parameters.

@@ -10,6 +10,8 @@ $tmp = array(
 			'OnChunkFormPrerender' => array(),
 			'OnDocFormPrerender' => array(),
 			'OnTempFormPrerender' => array(),
+			'OnSnipFormPrerender' => array(),
+			'OnPluginFormPrerender' => array(),
 		)
 	)
 

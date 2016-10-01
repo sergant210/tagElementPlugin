@@ -18,6 +18,16 @@ $tmp = array(
 		'value' => '{key: Ext.EventObject.INSERT, ctrl: true, shift: false, alt: false}',
 		'area' => 'tagelementplugin_main',
 	),
+    'quick_chunk_editor_keys' => array(
+		'xtype' => 'textfield',
+		'value' => '{key: Ext.EventObject.C, ctrl: true, shift: false, alt: true}',
+		'area' => 'tagelementplugin_main',
+	),
+    'chunk_editor_keys' => array(
+		'xtype' => 'textfield',
+		'value' => '{key: Ext.EventObject.C, ctrl: true, shift: true, alt: true}',
+		'area' => 'tagelementplugin_main',
+	),
 );
 
 foreach ($tmp as $k => $v) {

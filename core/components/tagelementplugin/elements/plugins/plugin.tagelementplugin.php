@@ -12,6 +12,14 @@ switch ($modx->event->name) {
         $field = 'modx-chunk-snippet';
         $panel = 'modx-panel-chunk';
         break;
+    case 'OnSnipFormPrerender':
+        $field = 'modx-snippet-snippet';
+        $panel = 'modx-panel-snippet';
+        break;
+    case 'OnPluginFormPrerender':
+        $field = 'modx-plugin-plugincode';
+        $panel = 'modx-panel-plugin';
+        break;
     default:
         return;
 }
@@ -30,9 +38,11 @@ if (!empty($field)) {
     $_html .= "\t\tpanel : '{$panel}',\n" ;
     $_html .= "\t\tfield : '{$field}',\n" ;
     $_html .= "\t\tparent : [],\n" ;
-    $_html .= "\t\tkeys : {\n\t\t\tquickEditor :". $modx->getOption('tagelementplugin_quick_editor_keys') . ",\n" ;
-    $_html .= "\t\t\telementEditor :". $modx->getOption('tagelementplugin_element_editor_keys') . ",\n" ;
-    $_html .= "\t\t\telementProperties :". $modx->getOption('tagelementplugin_element_prop_keys') . "\n\t\t},\n" ;
+    $_html .= "\t\tkeys : {\n\t\t\tquickEditor :". $modx->getOption('tagelementplugin_quick_editor_keys',null,'') . ",\n" ;
+    $_html .= "\t\t\telementEditor :". $modx->getOption('tagelementplugin_element_editor_keys',null,'') . ",\n" ;
+    $_html .= "\t\t\tchunkEditor :". $modx->getOption('tagelementplugin_chunk_editor_keys',null,'') . ",\n" ;
+    $_html .= "\t\t\tquickChunkEditor :". $modx->getOption('tagelementplugin_quick_chunk_editor_keys',null,'') . ",\n" ;
+    $_html .= "\t\t\telementProperties :". $modx->getOption('tagelementplugin_element_prop_keys',null,'') . "\n\t\t},\n" ;
     $_html .= "\t\tusing_fenom : {$usingFenon},\n" ;
     $_html .= "\t\teditor : '".$modx->getOption('which_element_editor')."',\n" ;
     $_html .= "\t\tconnector_url : '". $modx->getOption('tagelementplugin_assets_url', null, $modx->getOption('assets_url') . "components/tagelementplugin/")."connector.php'\n";

@@ -1,5 +1,5 @@
 ## tagElementPlugin
-A MODx Revolution Plugin that allows edit chunks and snippets in a quick edit/create element window selecting their tags in the textarea field of resource, chunk or template and pressing Ctrl+Enter. Also you can get the value of some tags that start with "~", "%", "++" and "#". 
+A MODx Revolution Plugin that allows to edit chunks and snippets selecting their tags in the content field of resource, chunk, template, snippet or plugin forms. Also you can get the value of some tags that start with "~", "%", "++" and "#". 
 
 ### How it works
 Open any resource, chunk or template form where you use chunk / snippet tags (for example [[$myChunk]] and [[mySnippet]]). Select it and press **Ctrl+Enter**. If the element exists the quick edit dialog will be opened. 
@@ -8,7 +8,7 @@ Open any resource, chunk or template form where you use chunk / snippet tags (fo
 If not you can create it right here.  
 [![](https://file.modx.pro/files/a/8/c/a8cd30b9558562011c72629df6520364s.jpg)](https://file.modx.pro/files/a/8/c/a8cd30b9558562011c72629df6520364.png)
 
-To open the element page press **Ctrl+Shift+Enter**.
+To go to the element page press **Ctrl+Shift+Enter**.
 
 For example, you can create a new template. Define it structure:
 ```
@@ -43,8 +43,10 @@ To form a snippet or a chunk tag with parameters write the snippet name, select 
 ### Customize the shortcuts
 
 Use next system settings to do it:
-* tagelementplugin_quick_editor_keys - a shortcut to edit elements in the quick editing window. By default, Ctrl+Enter.
-* tagelementplugin_element_editor_keys - a shortcut to redirect to the element page. By default, Ctrl+Shift+Enter.
+* tagelementplugin_quick_editor_keys - a shortcut to open elements in the corresponding quick editing window. By default, Ctrl+Enter.
+* tagelementplugin_quick_chunk_editor_keys - a shortcut to open chunk with the selected text in the quick update dialog. By default, Ctrl+Alt+C.
+* tagelementplugin_chunk_editor_keys - a shortcut to redirect to the chunk update form. By default, Ctrl+Shift+Alt+C.
+* tagelementplugin_element_editor_keys - a shortcut to redirect to the element's page. By default, Ctrl+Shift+Enter.
 * tagelementplugin_element_prop_keys -  a shortcut to open the "Select element options" window for the selected snippet or chunk. By default, Ctrl+Ins.
 
 They look like this 

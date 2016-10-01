@@ -13,6 +13,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 		} else {
 			if (MODx.config.confirm_navigation == 1 && this.config.panel) {
 				var panel = Ext.getCmp(this.config.panel);
+				if (!panel) return;
 				panel.warnUnsavedChanges = panel.warnUnsavedChanges || false;
 				panel.on('fieldChange', function (e) {
 					if (!panel.warnUnsavedChanges && Ext.EventObject.button != Ext.EventObject.F5 && Ext.EventObject.button != 0 && (panel.isReady || MODx.request.reload)) {
@@ -36,10 +37,12 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 				txtarea = document.getElementById(this.config.field);
 			}
 		}
-		var quickEditorKeys   = this.config.keys.quickEditor || {key: Ext.EventObject.ENTER, ctrl: true, shift: false, alt: false}; //('tep.quick_edit_keys');
-		var elementEditorKeys = this.config.keys.elementEditor || {key: Ext.EventObject.ENTER, ctrl: true, shift: true, alt: false};
-		var elementPropKeys   = this.config.keys.elementProperties || {key: Ext.EventObject.INSERT, ctrl: true, shift: false, alt: false};
-		editorEl.addKeyListener(quickEditorKeys, function () {
+		var quickEditorKeys   = this.config.keys.quickEditor || {key: Ext.EventObject.ENTER, ctrl: true, shift: false, alt: false},
+			elementEditorKeys = this.config.keys.elementEditor || {key: Ext.EventObject.ENTER, ctrl: true, shift: true, alt: false},
+			elementPropKeys   = this.config.keys.elementProperties || {key: Ext.EventObject.INSERT, ctrl: true, shift: false, alt: false},
+			quickChunkEditorKeys   = this.config.keys.quickChunkEditor || {key: Ext.EventObject.C, ctrl: true, shift: false, alt: true},
+			chunkEditorKeys   = this.config.keys.chunkEditor || {key: Ext.EventObject.C, ctrl: true, shift: true, alt: true};
+		var getSelection = function (editorType) {
 			var selection = '';
 			switch (editorType) {
 				case 'textarea':
@@ -49,32 +52,26 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 					selection = Ext.getCmp(editorEl.id).editor.getSelectedText();
 					break;
 			}
-			if (selection) {
-				this.openElement(selection, true, editorEl);
-			}
+			return selection;
+		};
+		editorEl.addKeyListener(quickEditorKeys, function () {
+			var selection = getSelection(editorType);
+			if (selection) this.openElement(selection, true, editorEl);
+		}, this);
+		editorEl.addKeyListener(quickChunkEditorKeys, function () {
+			var selection = getSelection(editorType);
+			if (selection) this.openElement(selection, true, editorEl, 'chunk');
+		}, this);
+		editorEl.addKeyListener(chunkEditorKeys, function () {
+			var selection = getSelection(editorType);
+			if (selection) this.openElement(selection, false, null, 'chunk');
 		}, this);
 		editorEl.addKeyListener(elementEditorKeys, function () {
-			var selection = '';
-			switch (editorType) {
-				case 'textarea':
-					selection = txtarea.value.substring(txtarea.selectionStart, txtarea.selectionEnd);
-					break;
-				case 'modx-texteditor':
-					selection = Ext.getCmp(editorEl.id).editor.getSelectedText();
-					break;
-			}
+			var selection = getSelection(editorType);
 			if (selection) this.openElement(selection, false);
 		}, this);
 		editorEl.addKeyListener(elementPropKeys, function () {
-			var selection = '';
-			switch (editorType) {
-				case 'textarea':
-					selection = txtarea.value.substring(txtarea.selectionStart, txtarea.selectionEnd);
-					break;
-				case 'modx-texteditor':
-					selection = Ext.getCmp(editorEl.id).editor.getSelectedText();
-					break;
-			}
+			var selection = getSelection(editorType);
 			if (selection) this.openProperties(selection, editorEl);
 		}, this);
 		/*
@@ -94,10 +91,16 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 		 }, this);
 		 */
 	},
-	openElement: function (selection, quick, parent) {
+	openElement: function (selection, quick, parent, elementType) {
+		elementType = elementType || '';
 		selection = selection.trim().replace('!', '').replace('[[', '').replace(']]', '');
 		if (selection.length < 2) return;
-		var token = selection.substr(0, 1), elementType, mimeType, modxTags;
+		var token, mimeType, modxTags;
+		if (elementType == 'chunk') {
+			token = '$';
+		} else {
+			token = selection.substr(0, 1);
+		}
 		if (token == '-') {
 			selection = selection.substr(1);
 			token = selection.substr(0, 1);
@@ -114,6 +117,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 				break;
 			// chunk
 			case '$':
+				if (elementType == 'chunk') token = '';
 				elementType = 'chunk';
 				mimeType = this.config.using_fenom ? 'text/x-smarty' : 'text/html';
 				modxTags = 1;
