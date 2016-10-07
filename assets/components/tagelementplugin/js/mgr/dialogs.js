@@ -106,15 +106,16 @@ Ext.extend(MODx.window.tagelQuickCreateChunk,MODx.Window, {
 						form.findField('name').setValue(name);
 						Ext.get('tagel-chunk-name').removeClass('x-form-invalid');
 						Ext.MessageBox.alert(_('error'), _('chunk_err_ae'));
+						form.baseParams.action = 'element/chunk/update';
 						return false;
 					});
 					this.on('success', function (r) {
 						var response = Ext.decode(r.a.response.responseText);
 						form.findField('id').setValue(response.object.id);
+						form.baseParams.action = 'element/chunk/update';
 						return false;
 					});
 					this.submit(false);
-					form.baseParams.action = 'element/chunk/update';
 				}
 			},
 			this,

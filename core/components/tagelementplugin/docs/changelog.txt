@@ -1,5 +1,9 @@
 1.2.0-pl
 ==============
+- Fixed bug with "save as" command.
+
+1.2.0-pl
+==============
 - tagElementPlugin is also available in the snippet and plugin forms.
 - Added keyboard shortcuts to work with chunks. By default, <Ctrl>+<Alt>+<C> and <Ctrl>+<Shift>+<Alt>+<C>.
 - Added "Save as" button to the quick update dialogs.
