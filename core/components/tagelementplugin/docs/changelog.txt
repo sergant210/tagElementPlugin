@@ -1,4 +1,8 @@
-1.2.0-pl
+1.2.2-pl
+==============
+- Fixed bug with the element name field when opened more then one quick dialog.
+
+1.2.1-pl
 ==============
 - Fixed bug with "save as" command.
 

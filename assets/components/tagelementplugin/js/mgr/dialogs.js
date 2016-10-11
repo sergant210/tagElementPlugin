@@ -30,7 +30,7 @@ MODx.window.tagelQuickCreateChunk = function(config) {
 				items: [{
 					xtype: 'textfield',
 					name: 'name',
-					id: 'tagel-chunk-name',
+					id: config.id + '-chunk-name',
 					fieldLabel: _('name'),
 					anchor: '100%'
 				}, {
@@ -104,7 +104,7 @@ Ext.extend(MODx.window.tagelQuickCreateChunk,MODx.Window, {
 					form.findField('name').setValue(text);
 					this.on('failure', function () {
 						form.findField('name').setValue(name);
-						Ext.get('tagel-chunk-name').removeClass('x-form-invalid');
+						//Ext.get(this.config.id + '-chunk-name').removeClass('x-form-invalid');
 						Ext.MessageBox.alert(_('error'), _('chunk_err_ae'));
 						form.baseParams.action = 'element/chunk/update';
 						return false;
@@ -192,7 +192,7 @@ MODx.window.tagelQuickCreateSnippet = function(config) {
 				,items: [{
 					xtype: 'textfield',
 					name: 'name',
-					id: 'tagel-snippet-name',
+					id: config.id + '-snippet-name',
 					fieldLabel: _('name'),
 					anchor: '100%'
 				}, {
@@ -266,17 +266,18 @@ Ext.extend(MODx.window.tagelQuickCreateSnippet,MODx.Window, {
 					form.findField('name').setValue(text);
 					this.on('failure', function () {
 						form.findField('name').setValue(name);
-						Ext.get('tagel-snippet-name').removeClass('x-form-invalid');
+						Ext.get(this.config.id + '-snippet-name').removeClass('x-form-invalid');
 						Ext.MessageBox.alert(_('error'), _('snippet_err_ae'));
+						form.baseParams.action = 'element/snippet/update';
 						return false;
 					});
 					this.on('success', function (r) {
 						var response = Ext.decode(r.a.response.responseText);
 						form.findField('id').setValue(response.object.id);
+						form.baseParams.action = 'element/snippet/update';
 						return false;
 					});
 					this.submit(false);
-					form.baseParams.action = 'element/snippet/update';
 				}
 			},
 			this,
@@ -291,12 +292,12 @@ MODx.window.tagelQuickUpdateSnippet = function(config) {
 	config = config || {};
 
 	Ext.applyIf(config,{
-		title: _('quick_update_snippet')
-		,action: 'element/snippet/update'
-		,buttons: [{
-			text: config.cancelBtnText || _('cancel')
-			,scope: this
-			,handler: function() { this.hide(); }
+		title: _('quick_update_snippet'),
+		action: 'element/snippet/update',
+		buttons: [{
+			text: config.cancelBtnText || _('cancel'),
+			scope: this,
+			handler: function() { this.hide(); }
 		},{
 			text: _('save_as'),
 			scope: this,
@@ -304,14 +305,14 @@ MODx.window.tagelQuickUpdateSnippet = function(config) {
 				this.saveAs(this.fp.getForm().findField('name').getValue());
 			}
 		},{
-			text: config.saveBtnText || _('save')
-			,scope: this
-			,handler: function() { this.submit(false); }
+			text: config.saveBtnText || _('save'),
+			scope: this,
+			handler: function() { this.submit(false); }
 		},{
-			text: config.saveBtnText || _('save_and_close')
-			,cls: 'primary-button'
-			,scope: this
-			,handler: this.submit
+			text: config.saveBtnText || _('save_and_close'),
+			cls: 'primary-button',
+			scope: this,
+			handler: this.submit
 		}]
 	});
 	MODx.window.tagelQuickUpdateSnippet.superclass.constructor.call(this,config);
