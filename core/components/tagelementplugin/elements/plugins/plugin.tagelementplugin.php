@@ -1,7 +1,7 @@
 <?php
 switch ($modx->event->name) {
     case 'OnDocFormPrerender':
-        $field = 'modx-snippet-snippet';
+        $field = 'ta';
         $panel = '';
         break;
     case 'OnTempFormPrerender':
@@ -44,7 +44,7 @@ if (!empty($field)) {
     $_html .= "\t\t\tquickChunkEditor :". $modx->getOption('tagelementplugin_quick_chunk_editor_keys',null,'') . ",\n" ;
     $_html .= "\t\t\telementProperties :". $modx->getOption('tagelementplugin_element_prop_keys',null,'') . "\n\t\t},\n" ;
     $_html .= "\t\tusing_fenom : {$usingFenon},\n" ;
-    $_html .= "\t\teditor : '".$modx->getOption('which_element_editor')."',\n" ;
+    $_html .= "\t\telementEditor : '".$modx->getOption('which_element_editor')."',\n" ;
     $_html .= "\t\tconnector_url : '". $modx->getOption('tagelementplugin_assets_url', null, $modx->getOption('assets_url') . "components/tagelementplugin/")."connector.php'\n";
     $_html .= "\t};\n";
     $_html .= "</script>";

@@ -2,7 +2,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 	initialize: function (winId) {
 		var editorEl, txtarea, editorType;
 		if (winId) {
-			if (this.config.editor == 'Ace') {
+			if (this.config.elementEditor == 'Ace') {
 				editorEl = Ext.select('div#' + winId + ' div.ace_editor').first();
 				editorType = 'modx-texteditor';
 			} else {
@@ -27,8 +27,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 					if (panel.warnUnsavedChanges) return _('unsaved_changes');
 				};
 			}
-			if (this.config.editor == 'Ace') {
-				//Ext.getCmp(this.config.panel).getEl().select('textarea.ace_text-input');
+			if (this.config.elementEditor == 'Ace') {
 				editorEl = Ext.select('div.ace_editor').first();
 				editorType = 'modx-texteditor';
 			} else {
@@ -36,6 +35,10 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 				editorType = 'textarea';
 				txtarea = document.getElementById(this.config.field);
 			}
+		}
+		if (!editorEl) {
+			console.error('[tagElementPlugin] Init error. Perhaps because of using a rich text editor.');
+			return;
 		}
 		var quickEditorKeys   = this.config.keys.quickEditor || {key: Ext.EventObject.ENTER, ctrl: true, shift: false, alt: false},
 			elementEditorKeys = this.config.keys.elementEditor || {key: Ext.EventObject.ENTER, ctrl: true, shift: true, alt: false},
@@ -171,7 +174,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 										},
 										'afterrender': {
 											fn: function () {
-												if (tagElPlugin.config.editor == 'Ace') MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
+												if (tagElPlugin.config.elementEditor == 'Ace') MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
 												tagElPlugin.initialize(winId);
 												//var id = Ext.select('div.ace_editor').last().id,
 												//	editor =  Ext.getCmp(id);
@@ -230,7 +233,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 															},
 															'afterrender': {
 																fn: function () {
-																	if (tagElPlugin.config.editor == 'Ace') MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
+																	if (tagElPlugin.config.elementEditor == 'Ace') MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
 																	tagElPlugin.initialize(winId);
 																}, scope: this
 															},
@@ -319,7 +322,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 								targetEl: targetEl,
 								iframe: false
 							});
-							if (tagElPlugin.config.editor == 'Ace') {
+							if (tagElPlugin.config.elementEditor == 'Ace') {
 								cfg = Ext.apply(cfg, {
 									iframe: true,
 									onInsert: (function (s) {
@@ -336,9 +339,9 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 								cached: cached,
 								output: '',
 								tag: selection.substr(token.length),
-								ddTargetEl: tagElPlugin.config.editor == 'Ace' ? targetEl : targetEl.dom,
+								ddTargetEl: tagElPlugin.config.elementEditor == 'Ace' ? targetEl : targetEl.dom,
 								cfg: cfg,
-								iframe: tagElPlugin.config.editor == 'Ace',
+								iframe: tagElPlugin.config.elementEditor == 'Ace',
 								panel: tagElPlugin.config.panel
 							});
 

@@ -1,6 +1,10 @@
+1.2.3-pl
+==============
+- Fixed the name of the id attribute of the textarea field.
+
 1.2.2-pl
 ==============
-- Fixed bug with the element name field when opened more then one quick dialog.
+- Fixed bug with the element name field when more then one quick dialog are opened.
 
 1.2.1-pl
 ==============

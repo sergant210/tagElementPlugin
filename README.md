@@ -2,15 +2,27 @@
 A MODx Revolution Plugin that allows to edit chunks and snippets selecting their tags in the content field of resource, chunk, template, snippet or plugin forms. Also you can get the value of some tags that start with "~", "%", "++" and "#". 
 
 ### How it works
-Open any resource, chunk or template form where you use chunk / snippet tags (for example [[$myChunk]] and [[mySnippet]]). Select it and press **Ctrl+Enter**. If the element exists the quick edit dialog will be opened. 
+Open any resource, chunk or template form where you use chunk or snippet tags (for example ```[[$myChunk]]``` or ```[[mySnippet]]```). Select it and press **Ctrl+Enter**. If the element exists, the quick edit dialog will be opened. 
 [![](https://file.modx.pro/files/9/2/9/9294cb6e82f36b9cc2ca5691c15446fcs.jpg)](https://file.modx.pro/files/9/2/9/9294cb6e82f36b9cc2ca5691c15446fc.png)
 
 If not you can create it right here.  
 [![](https://file.modx.pro/files/a/8/c/a8cd30b9558562011c72629df6520364s.jpg)](https://file.modx.pro/files/a/8/c/a8cd30b9558562011c72629df6520364.png)
 
-To go to the element page press **Ctrl+Shift+Enter**.
+To go to the element's page press **Ctrl+Shift+Enter**.
 
-For example, you can create a new template. Define it structure:
+tagElementPlugin can get the value of next tags:
+* [[~1]]
+* [[%lexicon_entry]]
+* [[++system_setting]]
+* [[#1.pagetitle]], [[#SERVER.key]], [[#REQUEST.key]], [[#COOKIE.key]], [[#SESSION.key]] and more.
+
+The last ones will be parsed if pdoParser is used (read about the [fastField tags](http://docs.modx.pro/en/components/pdotools/parser#fastField-tag) for more information). It gives the great possibilities.
+
+### Define an element tag with properties
+To form a snippet or a chunk tag with parameters write the element name, select it and press **Ctrl+Insert**. The "Select element options" dialog with element properties will be opened. Change the required properties and press Save.  You'll get the prepared tag. You can specify any custom parameter and any property set. These parameters will be also shown in the options dialog.
+
+### Example
+Create a new template. Define it structure:
 ```
 <!DOCTYPE html>
 <html lang="ru">
@@ -26,19 +38,7 @@ For example, you can create a new template. Define it structure:
 </body>
 </html>
 ```
-And right on this page create these chunks selecting them one by one. 
-
-It works without any element editor and with Ace.
-
-tagElementPlugin can get the value of next tags:
-* [[~1]]
-* [[%lexicon_entry]]
-* [[++system_setting]]
-* [[#1.pagetitle]], [[#SERVER.key]], [[#REQUEST.key]], [[#COOKIE.key]], [[#SESSION.key]] and more.
-
-The last ones will be parsed if pdoParser is used (read about the [fastField tags](http://docs.modx.pro/en/components/pdotools/parser#fastField-tag) for more information). It gives the great possibilities.
-
-To form a snippet or a chunk tag with parameters write the snippet name, select it and press **Ctrl+Insert**. The "Select element options" dialog with element properties will be opened. Change the required properties and press Save.  You'll get the prepared tag. You can specify any custom parameter and any property set. These parameters will be also shown in the options dialog. 
+And right on this page create these chunks selecting them one by one.  
 
 ### Customize the shortcuts
 
@@ -54,5 +54,8 @@ They look like this
 {key: Ext.EventObject.ENTER, ctrl: true, shift: false, alt: false}
 ```
 You can specify a digital key code or use [the ExtJs constants](http://docs.sencha.com/extjs/3.4.0/#!/api/Ext.EventManager).
+
+### Important
+tagElementPlugin does not support rich text editors. It works without any element editor and with [Ace](https://modx.com/extras/package/ace).
 
 [Documentation](http://modzone.ru/documentation/tagelementplugin.html) (russian). 
