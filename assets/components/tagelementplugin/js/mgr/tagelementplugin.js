@@ -16,8 +16,9 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 				var keyKodes = [9,16,17,18,19,20,27,33,34,35,36,37,38,39,40,45,91,92,93,112,113,114,115,116,117,118,119,120,121,122,123,144,145,154,157];
 				if (!panel) return;
 				panel.warnUnsavedChanges = panel.warnUnsavedChanges || false;
-				panel.on('fieldChange', function () {
+				panel.on('fieldChange', function (e) {
 					if (!this.warnUnsavedChanges
+						&& (Ext.EventObject.keyCode !== undefined || e !== undefined)
 						&& !keyKodes.in_array(Ext.EventObject.keyCode)
 						&& (this.isReady || MODx.request.reload)) {
 						this.warnUnsavedChanges = true;
