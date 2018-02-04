@@ -33,8 +33,6 @@ class modElementGetInsertProperties extends modProcessor {
             $tagPropString = ltrim(trim($tagParts[1]),'&');
             $this->tagProperties = $this->modx->getParser()->parseProperties($tagPropString);
         }
-//$this->modx->log(1,print_r($this->tagProperties,1));
-//$this->modx->log(modX::LOG_LEVEL_ERROR, $this->getProperty('tag'));
         $this->element = $this->modx->getObject($this->getProperty('classKey'),$this->getProperty('pk'));
         if (empty($this->element)) return $this->modx->lexicon('element_err_nf');
         return true;
@@ -75,7 +73,6 @@ class modElementGetInsertProperties extends modProcessor {
                 }
             }
         }
-//$this->modx->log(1,print_r($this->tagProperties,1));
         if (!empty($this->tagProperties)) {
             foreach ($this->tagProperties as $name => $val) {
                 $properties[$name] = array_merge($templ, array('name' => $name, 'value' => $val));
@@ -90,7 +87,6 @@ class modElementGetInsertProperties extends modProcessor {
     public function getElementProperties() {
         $properties = $this->element->get('properties');
 
-//$this->modx->log(1,print_r($properties,1));
         $propertySet = $this->getProperty('propertySet');
         
         if (!empty($propertySet)) {

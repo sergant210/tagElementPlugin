@@ -13,15 +13,18 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 		} else {
 			if (MODx.config.confirm_navigation == 1 && this.config.panel) {
 				var panel = Ext.getCmp(this.config.panel);
+				var keyKodes = [9,16,17,18,19,20,27,33,34,35,36,37,38,39,40,45,91,92,93,112,113,114,115,116,117,118,119,120,121,122,123,144,145,154,157];
 				if (!panel) return;
 				panel.warnUnsavedChanges = panel.warnUnsavedChanges || false;
-				panel.on('fieldChange', function (e) {
-					if (!panel.warnUnsavedChanges && Ext.EventObject.button != Ext.EventObject.F5 && Ext.EventObject.button != 0 && (panel.isReady || MODx.request.reload)) {
-						panel.warnUnsavedChanges = true;
+				panel.on('fieldChange', function () {
+					if (!this.warnUnsavedChanges
+						&& !keyKodes.in_array(Ext.EventObject.keyCode)
+						&& (this.isReady || MODx.request.reload)) {
+						this.warnUnsavedChanges = true;
 					}
 				});
-				panel.on('success', function (e) {
-					panel.warnUnsavedChanges = false;
+				panel.on('success', function () {
+					this.warnUnsavedChanges = false;
 				});
 				window.onbeforeunload = function () {
 					if (panel.warnUnsavedChanges) return _('unsaved_changes');

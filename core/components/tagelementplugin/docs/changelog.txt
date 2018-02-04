@@ -1,3 +1,7 @@
+1.2.4-pl
+==============
+- Fixed bug with browser warning about unsaved data.
+
 1.2.3-pl
 ==============
 - Fixed the name of the id attribute of the textarea field.
