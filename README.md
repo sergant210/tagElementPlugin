@@ -23,7 +23,7 @@ To form a snippet or a chunk tag with parameters write the element name, select 
 
 ### Example
 Create a new template. Define it structure:
-```
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -54,6 +54,16 @@ They look like this
 {key: Ext.EventObject.ENTER, ctrl: true, shift: false, alt: false}
 ```
 You can specify a digital key code or use [the ExtJs constants](http://docs.sencha.com/extjs/3.4.0/#!/api/Ext.EventManager).
+
+### Support of Fenom file element syntax
+Supported tags:
+```smarty
+{include 'file:relative/path/to/file'}
+{'@FILE relative/path/to/file' | chunk}
+{$_modx->runSnippet('@FILE relative/path/to/file', [])}
+```
+Select content in quotes (```file:relative/path/to/file``` or ```@FILE relative/path/to/file```) and press Ctrl+Enter or Ctrl+Shift+Enter. Or select only path to the file and press the combination 
+of Ctrl+Shift+F and Ctrl+Enter. 
 
 ### Important
 tagElementPlugin does not support rich text editors. It works without any element editor and with [Ace](https://modx.com/extras/package/ace).

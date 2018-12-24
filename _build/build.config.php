@@ -4,8 +4,8 @@
 define('PKG_NAME', 'tagElementPlugin');
 define('PKG_NAME_LOWER', strtolower(PKG_NAME));
 
-define('PKG_VERSION', '1.2.4');
-define('PKG_RELEASE', 'pl1');
+define('PKG_VERSION', '1.3.0');
+define('PKG_RELEASE', 'pl');
 define('PKG_AUTO_INSTALL', false);
 define('PKG_NAMESPACE_PATH', '{core_path}components/' . PKG_NAME_LOWER . '/');
 

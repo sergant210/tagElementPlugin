@@ -20,6 +20,10 @@ switch ($modx->event->name) {
         $field = 'modx-plugin-plugincode';
         $panel = 'modx-panel-plugin';
         break;
+    case 'OnFileEditFormPrerender':
+        $field = 'modx-file-content';
+        $panel = 'modx-panel-file-edit';
+        break;
     default:
         return;
 }
@@ -31,22 +35,27 @@ if (!empty($field)) {
     /** @var modManagerController */
     $modx->controller->addLastJavascript($jsUrl.'tagelementplugin.js');
     $modx->controller->addLastJavascript($jsUrl.'dialogs.js');
-    $usingFenon = $modx->getOption('pdotools_fenom_parser',null,false) ? 'true' : 'false';
-    $_html = "<script type=\"text/javascript\">\n";
-    $_html .= "\tvar tagElPlugin = {};\n";
-    $_html .= "\ttagElPlugin.config = {\n";
-    $_html .= "\t\tpanel : '{$panel}',\n" ;
-    $_html .= "\t\tfield : '{$field}',\n" ;
-    $_html .= "\t\tparent : [],\n" ;
-    $_html .= "\t\tkeys : {\n\t\t\tquickEditor :". $modx->getOption('tagelementplugin_quick_editor_keys',null,'') . ",\n" ;
-    $_html .= "\t\t\telementEditor :". $modx->getOption('tagelementplugin_element_editor_keys',null,'') . ",\n" ;
-    $_html .= "\t\t\tchunkEditor :". $modx->getOption('tagelementplugin_chunk_editor_keys',null,'') . ",\n" ;
-    $_html .= "\t\t\tquickChunkEditor :". $modx->getOption('tagelementplugin_quick_chunk_editor_keys',null,'') . ",\n" ;
-    $_html .= "\t\t\telementProperties :". $modx->getOption('tagelementplugin_element_prop_keys',null,'') . "\n\t\t},\n" ;
-    $_html .= "\t\tusing_fenom : {$usingFenon},\n" ;
-    $_html .= "\t\telementEditor : '".$modx->getOption('which_element_editor')."',\n" ;
-    $_html .= "\t\tconnector_url : '". $modx->getOption('tagelementplugin_assets_url', null, $modx->getOption('assets_url') . "components/tagelementplugin/")."connector.php'\n";
-    $_html .= "\t};\n";
-    $_html .= "</script>";
+    $usingFenon = $modx->getOption('pdotools_fenom_parser', null, false) ? 'true' : 'false';
+    $connectorUrl = $modx->getOption("tagelementplugin_assets_url", null, $modx->getOption("assets_url") . "components/tagelementplugin/")."connector.php";
+    $_html = <<<SCRIPT
+<script type="text/javascript">
+    var tagElPlugin = {};
+    tagElPlugin.config = {
+        panel : '{$panel}',
+        field : '{$field}',
+        parent : [],
+        keys : {
+        	quickEditor: {$modx->getOption('tagelementplugin_quick_editor_keys', null, '')},
+            elementEditor: {$modx->getOption('tagelementplugin_element_editor_keys', null, '')},
+            chunkEditor: {$modx->getOption('tagelementplugin_chunk_editor_keys', null, '')},
+            quickChunkEditor: {$modx->getOption('tagelementplugin_quick_chunk_editor_keys', null,' ')},
+            elementProperties: {$modx->getOption('tagelementplugin_element_prop_keys', null, '')}
+        },
+        using_fenom: {$usingFenon},
+        elementEditor: '{$modx->getOption("which_element_editor")}',
+        connector_url: '{$connectorUrl}'
+    };
+</script>
+SCRIPT;
     $modx->controller->addHtml($_html);
 }

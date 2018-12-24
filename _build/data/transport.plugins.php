@@ -12,6 +12,7 @@ $tmp = array(
 			'OnTempFormPrerender' => array(),
 			'OnSnipFormPrerender' => array(),
 			'OnPluginFormPrerender' => array(),
+			'OnFileEditFormPrerender' => array(),
 		)
 	)
 

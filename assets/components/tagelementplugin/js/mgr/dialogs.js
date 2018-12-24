@@ -319,3 +319,47 @@ MODx.window.tagelQuickUpdateSnippet = function(config) {
 };
 Ext.extend(MODx.window.tagelQuickUpdateSnippet,MODx.window.tagelQuickCreateSnippet);
 Ext.reg('tagelement-quick-update-snippet',MODx.window.tagelQuickUpdateSnippet);
+
+/****************************************************/
+MODx.window.tagelQuickUpdateFile = function(config) {
+	config = config || {};
+	Ext.applyIf(config,{
+		title: _('quick_update_file'),
+		width: 1200,
+		minHeight: 300,
+		height: 430,
+		//,height: 600
+		// autoHeight: true,
+		stateful: false,
+		fields: [{
+			xtype: 'hidden',
+			name: 'wctx'
+		},{
+			xtype: 'hidden',
+			name: 'source'
+		},{
+			xtype: 'hidden',
+			name: 'file'
+		},{
+			fieldLabel: _('content'),
+			id: config.id + '-snippet',
+			xtype: 'textarea',
+			name: 'content',
+			anchor: '100%',
+			height: 300
+		}],
+		keys: [{
+			key: MODx.config.keymap_save || 's',
+			ctrl: true,
+			shift: false,
+			scope: this,
+			fn: function () {
+				this.submit(false);
+			}
+		}]
+	});
+
+	MODx.window.tagelQuickUpdateFile.superclass.constructor.call(this, config);
+};
+Ext.extend(MODx.window.tagelQuickUpdateFile, MODx.window.QuickUpdateFile);
+Ext.reg('tagelement-quick-update-file', MODx.window.tagelQuickUpdateFile);

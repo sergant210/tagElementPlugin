@@ -46,6 +46,7 @@ class tagElementPluginGetProcessor extends modObjectGetProcessor {
     public function cleanup() {
         $array = $this->object->toArray();
         if ($this->classKey == 'modSnippet') $array['snippet'] = "<?php\n".$array['snippet'];
+        $array['isFile'] = false;
         return $this->success('',$array);
     }
     /**

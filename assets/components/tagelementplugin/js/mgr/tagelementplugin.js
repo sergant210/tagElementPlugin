@@ -1,4 +1,5 @@
-tagElPlugin = Ext.apply(tagElPlugin,{
+tagElPlugin = Ext.apply(tagElPlugin, {
+	isFile: false,
 	initialize: function (winId) {
 		var editorEl, txtarea, editorType;
 		if (winId) {
@@ -48,7 +49,9 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 			elementEditorKeys = this.config.keys.elementEditor || {key: Ext.EventObject.ENTER, ctrl: true, shift: true, alt: false},
 			elementPropKeys   = this.config.keys.elementProperties || {key: Ext.EventObject.INSERT, ctrl: true, shift: false, alt: false},
 			quickChunkEditorKeys   = this.config.keys.quickChunkEditor || {key: Ext.EventObject.C, ctrl: true, shift: false, alt: true},
-			chunkEditorKeys   = this.config.keys.chunkEditor || {key: Ext.EventObject.C, ctrl: true, shift: true, alt: true};
+			chunkEditorKeys   = this.config.keys.chunkEditor || {key: Ext.EventObject.C, ctrl: true, shift: true, alt: true},
+			fileElementKeys = {key: Ext.EventObject.F, ctrl: true, shift: true, alt: false};
+
 		var getSelection = function (editorType) {
 			var selection = '';
 			switch (editorType) {
@@ -65,6 +68,10 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 			var selection = getSelection(editorType);
 			if (selection) this.openElement(selection, true, editorEl);
 		}, this);
+		editorEl.addKeyListener(elementEditorKeys, function () {
+			var selection = getSelection(editorType);
+			if (selection) this.openElement(selection, false);
+		}, this);
 		editorEl.addKeyListener(quickChunkEditorKeys, function () {
 			var selection = getSelection(editorType);
 			if (selection) this.openElement(selection, true, editorEl, 'chunk');
@@ -73,14 +80,15 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 			var selection = getSelection(editorType);
 			if (selection) this.openElement(selection, false, null, 'chunk');
 		}, this);
-		editorEl.addKeyListener(elementEditorKeys, function () {
-			var selection = getSelection(editorType);
-			if (selection) this.openElement(selection, false);
-		}, this);
 		editorEl.addKeyListener(elementPropKeys, function () {
 			var selection = getSelection(editorType);
 			if (selection) this.openProperties(selection, editorEl);
 		}, this);
+		editorEl.addKeyListener(fileElementKeys, function () {
+			this.isFile = true;
+			setTimeout( () => {this.isFile =false;}, 2000);
+		}, this);
+		
 		/*
 		// Parse chunks and snippets
 		// Use carefully
@@ -100,18 +108,22 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 	},
 	openElement: function (selection, quick, parent, elementType) {
 		elementType = elementType || '';
-		selection = selection.trim().replace('!', '').replace('[[', '').replace(']]', '');
+		selection = selection.trim().replace(/^[!\[{-]+|[\]}]+$/g, '');
+		// selection = selection.trim().replace('!', '').replace('[[', '').replace(']]', '');
 		if (selection.length < 2) return;
-		var token, mimeType, modxTags;
+		var token, mimeType, modxTags, isFile = false;
 		if (elementType == 'chunk') {
 			token = '$';
+		} else if (selection.search(/(file:|@FILE )/i) == 0 || this.isFile) {
+			isFile = true;
+			selection = selection.replace(/(file:|@FILE)/i, '').trim();
 		} else {
 			token = selection.substr(0, 1);
 		}
-		if (token == '-') {
+		/*if (token == '-') {
 			selection = selection.substr(1);
 			token = selection.substr(0, 1);
-		}
+		}*/
 		switch (token) {
 			case '*':
 				return false;
@@ -132,7 +144,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 			// snippet
 			default:
 				token = '';
-				elementType = 'snippet';
+				elementType = isFile ? 'file' :'snippet';
 				mimeType = 'application/x-php';
 				modxTags = 0;
 				break;
@@ -156,7 +168,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 			MODx.Ajax.request({
 				url: this.config.connector_url,
 				params: {
-					action: "mgr/element/get",
+					action: isFile ? 'mgr/element/getfile' : 'mgr/element/get',
 					tag: selection.substr(token.length),
 					elementType: elementType
 
@@ -167,22 +179,28 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 							if (quick) {
 								var winId = 'tagel-element-window-' + (++Ext.Component.AUTO_ID);
 								tagElPlugin.config.parent[winId] = parent.id;
-
 								var w = MODx.load({
 									xtype: 'tagelement-quick-update-' + elementType,
 									id: winId,
 									listeners: {
+										/*'resize': {
+											fn: function (o, w, h) {
+												var el = o.el.select('div.ace_editor').first();
+												if (el) {
+													el.setHeight(h-130);
+												}
+											}, scope: this
+										},*/
 										'success': {
 											fn: function () {
 											}, scope: this
 										},
 										'afterrender': {
 											fn: function () {
-												if (tagElPlugin.config.elementEditor == 'Ace') MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
+												if (tagElPlugin.config.elementEditor == 'Ace') {
+													MODx.ux.Ace.replaceComponent(winId + '-snippet', mimeType, modxTags);
+												}
 												tagElPlugin.initialize(winId);
-												//var id = Ext.select('div.ace_editor').last().id,
-												//	editor =  Ext.getCmp(id);
-												//editor.setMimeType(mimeType);
 											}, scope: this
 										},
 										'hide': {
@@ -190,7 +208,7 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 												this.destroy();
 												var parent = Ext.get(tagElPlugin.config.parent[this.id]);
 												if (parent) {
-													if (parent.id == tagElPlugin.config.field) {
+													if (parent.id == tagElPlugin.config.field || parent.dom.type == 'textarea') {
 														parent.focus();
 													} else {
 														parent.down('textarea').focus();
@@ -204,9 +222,12 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 								w.reset();
 								r.object.clearCache = true;
 								w.setValues(r.object);
+								if (isFile) w.setTitle(r.object.file);
 								w.show(Ext.EventObject.target);
 							} else {
-								location.href = 'index.php?a=element/' + elementType + '/update&id=' + r.object.id;
+								location.href = r.object.isFile
+										? 'index.php?a=system/file/edit&file='+r.object.file+'&wctx='+r.object.wctx+'&source='+r.object.source
+										: 'index.php?a=element/' + elementType + '/update&id=' + r.object.id;
 							}
 						}
 					},
@@ -217,10 +238,11 @@ tagElPlugin = Ext.apply(tagElPlugin,{
 								if (message === '') {
 									MODx.msg.hide();
 								} else {
+									var buttons = r.object.isFile ? Ext.MessageBox.OK : Ext.MessageBox.YESNO;
 									Ext.MessageBox.show({
 										title: _('error'),
 										msg: message,
-										buttons: Ext.MessageBox.YESNO,
+										buttons: buttons,
 										fn: function (btn) {
 											if (btn == 'yes') {
 												if (quick) {
